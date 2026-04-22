@@ -1,0 +1,35 @@
+body{
+background:linear-gradient(135deg,#d4f5d0,#0f2027);
+min-height:100vh;
+font-family:Segoe UI;
+}
+
+.container{
+background:rgba(255,255,255,0.9);
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+.card{
+transition:.3s;
+border-radius:15px;
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 15px 35px rgba(0,0,0,.3);
+}
+
+.navbar{
+background:#111!important;
+}
+
+.navbar a{
+color:white!important;
+margin-right:15px;
+}
+
+.navbar a:hover{
+color:#7CFC9F!important;
+}
