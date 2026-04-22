@@ -1,30 +1,28 @@
-<?php
-include '../db.php';
+<?php include 'db.php';
 
 $error="";
 
 if(isset($_POST['login'])){
 
-$username=$_POST['username'];
+$email=$_POST['email'];
 $password=$_POST['password'];
 
-$stmt=$conn->prepare("SELECT * FROM admin WHERE username=?");
-$stmt->bind_param("s",$username);
+$stmt=$conn->prepare("SELECT * FROM users WHERE email=?");
+$stmt->bind_param("s",$email);
 $stmt->execute();
 
 $result=$stmt->get_result();
-$admin=$result->fetch_assoc();
+$user=$result->fetch_assoc();
 
-if($admin && password_verify($password,$admin['password'])){
+if($user && password_verify($password,$user['password'])){
 
-$_SESSION['admin']=$admin['username'];
+$_SESSION['user']=$user['username'];
 
-header("Location: dashboard.php");
-exit();
+header("Location: index.php");
 
 }else{
 
-$error="Invalid admin credentials";
+$error="Invalid email or password";
 
 }
 }
@@ -35,17 +33,17 @@ $error="Invalid admin credentials";
 
 <head>
 
-<title>Admin Login</title>
+<title>User Login</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css">
 
 <style>
-.admin-card{
+.login-card{
 max-width:420px;
 margin:auto;
-margin-top:110px;
+margin-top:100px;
 padding:35px;
 border-radius:18px;
 background:rgba(255,255,255,0.95);
@@ -57,11 +55,11 @@ box-shadow:0 15px 40px rgba(0,0,0,.25);
 
 <body>
 
-<div class="admin-card">
+<?php include 'navbar.php'; ?>
 
-<h3 class="text-center mb-4">
-🔐 Admin Login
-</h3>
+<div class="login-card">
+
+<h3 class="text-center mb-4">Login to Planner</h3>
 
 <?php if($error!=""){ ?>
 
@@ -74,23 +72,24 @@ box-shadow:0 15px 40px rgba(0,0,0,.25);
 <form method="POST">
 
 <input
-name="username"
+name="email"
+type="email"
 class="form-control mb-3"
-placeholder="Admin Username"
+placeholder="Enter email"
 required>
 
 <input
-type="password"
 name="password"
+type="password"
 class="form-control mb-3"
-placeholder="Password"
+placeholder="Enter password"
 required>
 
 <button
 name="login"
 class="btn btn-success w-100">
 
-Login as Admin
+Login
 
 </button>
 
@@ -98,9 +97,9 @@ Login as Admin
 
 <p class="text-center mt-3">
 
-Return to
+Don't have an account?
 
-<a href="../index.php">Home</a>
+<a href="register.php">Register here</a>
 
 </p>
 
